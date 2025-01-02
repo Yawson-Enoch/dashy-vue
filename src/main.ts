@@ -1,4 +1,6 @@
-import './assets/main.css';
+/* supports weights 100-900 */
+import '@fontsource-variable/hanken-grotesk';
+import './assets/index.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
