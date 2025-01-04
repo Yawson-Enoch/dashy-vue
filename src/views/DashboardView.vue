@@ -1,3 +1,3 @@
 <template>
-  <p>this is the index dashboard page</p>
+  <p class="h-[200dvh]">this is the index dashboard page</p>
 </template>

@@ -52,7 +52,7 @@ const onSubmit = handleSubmit((values) => {
       </div>
     </div>
     <div
-      class="container flex flex-col items-center justify-center md:bg-zinc-900/5 md:dark:bg-zinc-900/40"
+      class="container flex flex-col items-center justify-center md:bg-zinc-900/5 md:dark:bg-zinc-900/60"
     >
       <h2 class="text-3xl font-semibold tracking-tight">Welcome to DashyVue</h2>
 

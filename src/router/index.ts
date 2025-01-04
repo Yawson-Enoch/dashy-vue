@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import DashboardView from '@/views/DashboardView.vue';
+import DashboardTasksView from '@/views/DashboardTasksView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +18,10 @@ const router = createRouter({
         {
           path: '',
           component: DashboardView,
+        },
+        {
+          path: 'tasks',
+          component: DashboardTasksView,
         },
       ],
     },

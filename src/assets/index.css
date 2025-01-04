@@ -35,7 +35,7 @@
 
     --ring: 240 10% 3.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -76,5 +76,33 @@
   }
   body {
     @apply min-h-dvh bg-background font-sans text-foreground antialiased;
+  }
+
+  /* dashboard layout */
+  .dashboard-container {
+    display: grid;
+    grid-template-areas:
+      'aside header header'
+      'aside main main'
+      'aside main main'
+      'aside footer footer';
+    grid-auto-columns: auto 1fr;
+    grid-auto-rows: auto 1fr auto;
+  }
+
+  .dashboard-header {
+    grid-area: header;
+  }
+
+  .dashboard-aside {
+    grid-area: aside;
+  }
+
+  .dashboard-main {
+    grid-area: main;
+  }
+
+  .dashboard-footer {
+    grid-area: footer;
   }
 }
