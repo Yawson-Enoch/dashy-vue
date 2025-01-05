@@ -1,3 +1,26 @@
+<script setup lang="ts">
+import { ListChecksIcon, ListTodoIcon } from 'lucide-vue-next';
+</script>
+
 <template>
-  <p class="h-[200dvh]">this is the index dashboard page</p>
+  <section class="grid grid-cols-[repeat(auto-fill,_minmax(min(20rem,_100%),_1fr))] gap-4">
+    <div
+      class="relative aspect-video w-full overflow-hidden rounded-md border bg-background before:absolute before:-left-1/2 before:-top-1/2 before:z-10 before:size-full before:rounded-full before:bg-primary/10 before:blur-[80px] before:content-['']"
+    >
+      <div class="flex size-full flex-col items-center justify-center text-center">
+        <ListTodoIcon class="size-10" />
+        <p class="mt-1 text-xl md:text-2xl">All Todos</p>
+        <p class="mt-4 text-4xl font-medium md:text-6xl md:font-semibold">5</p>
+      </div>
+    </div>
+    <div
+      class="relative aspect-video w-full overflow-hidden rounded-md border bg-background before:absolute before:-left-1/2 before:-top-1/2 before:z-10 before:size-full before:rounded-full before:bg-primary/10 before:blur-[80px] before:content-['']"
+    >
+      <div class="flex size-full flex-col items-center justify-center text-center">
+        <ListChecksIcon class="size-10" />
+        <p class="mt-1 text-xl md:text-2xl">Completed Todos</p>
+        <p class="mt-4 text-4xl font-medium md:text-6xl md:font-semibold">3</p>
+      </div>
+    </div>
+  </section>
 </template>

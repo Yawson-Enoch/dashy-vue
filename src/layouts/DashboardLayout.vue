@@ -65,7 +65,7 @@ const router = useRouter();
 <template>
   <div class="dashboard-container min-h-dvh pr-4 max-lg:pl-4">
     <!-- header -->
-    <header class="dashboard-header sticky top-0 py-4">
+    <header class="dashboard-header sticky top-0 z-10 py-4 pb-8">
       <div
         class="flex h-16 items-center justify-between rounded-xl bg-zinc-900/5 px-4 backdrop-blur-md dark:bg-zinc-900/60"
       >
@@ -174,7 +174,7 @@ const router = useRouter();
       </div>
     </header>
     <!-- sidebar -->
-    <aside class="dashboard-aside sticky top-0 max-h-dvh overflow-hidden p-4 max-lg:hidden">
+    <aside class="dashboard-aside sticky top-0 max-h-dvh overflow-hidden p-4 pr-8 max-lg:hidden">
       <div
         :class="[
           'flex h-full flex-col items-center rounded-xl bg-zinc-900/5 p-4 text-sm transition-[width] duration-300 ease-in-out dark:bg-zinc-900/60',
@@ -204,7 +204,7 @@ const router = useRouter();
           </p>
         </RouterLink>
         <!-- links -->
-        <ul class="mt-8 flex min-w-full flex-col gap-y-4">
+        <ul class="mt-16 flex min-w-full flex-col gap-y-4">
           <li v-for="{ icon, path, title } of links" :key="title" class="w-full">
             <TooltipProvider :disabled="!isSidebarCollapsed" :delay-duration="0">
               <Tooltip>
@@ -287,11 +287,11 @@ const router = useRouter();
       </div>
     </aside>
     <!-- main content -->
-    <main class="dashboard-main p-4">
+    <main class="dashboard-main">
       <RouterView />
     </main>
     <!-- footer -->
-    <footer class="dashboard-footer py-4">
+    <footer class="dashboard-footer py-4 pt-8">
       <div
         class="flex h-16 items-center justify-center rounded-xl bg-zinc-900/5 dark:bg-zinc-900/60"
       >
