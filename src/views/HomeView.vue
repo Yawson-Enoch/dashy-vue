@@ -8,6 +8,7 @@ import * as z from 'zod';
 import { useAuthStore } from '@/stores/auth';
 import { useId } from 'vue';
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 const id = useId();
 
@@ -29,10 +30,13 @@ const [username, usernameAttrs] = defineField('username');
 const authStore = useAuthStore();
 
 const router = useRouter();
+const route = useRoute();
 
 const onSubmit = handleSubmit((values) => {
   authStore.login(values.username);
-  router.push('/dashboard');
+
+  const goTo = route.query.redirect?.toString() || '/dashboard';
+  router.push(goTo);
 });
 </script>
 
