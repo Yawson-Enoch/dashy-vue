@@ -3,9 +3,10 @@ import HomeView from '../views/HomeView.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import DashboardView from '@/views/DashboardView.vue';
 import DashboardTasksView from '@/views/DashboardTasksView.vue';
+import NotFound from '../views/NotFound.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -24,6 +25,10 @@ const router = createRouter({
           component: DashboardTasksView,
         },
       ],
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: NotFound,
     },
   ],
 });
