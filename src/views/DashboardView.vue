@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useTasksStore } from '@/stores/tasks';
 import { ListChecksIcon, ListTodoIcon } from 'lucide-vue-next';
+
+const tasksStore = useTasksStore();
 </script>
 
 <template>
@@ -10,7 +13,9 @@ import { ListChecksIcon, ListTodoIcon } from 'lucide-vue-next';
       <div class="flex size-full flex-col items-center justify-center text-center">
         <ListTodoIcon class="size-10" />
         <p class="mt-1 text-xl md:text-2xl">All Todos</p>
-        <p class="mt-4 text-4xl font-medium md:text-6xl md:font-semibold">5</p>
+        <p class="mt-4 text-4xl font-medium md:text-6xl md:font-semibold">
+          {{ tasksStore.totalTasks }}
+        </p>
       </div>
     </div>
     <div
@@ -19,7 +24,9 @@ import { ListChecksIcon, ListTodoIcon } from 'lucide-vue-next';
       <div class="flex size-full flex-col items-center justify-center text-center">
         <ListChecksIcon class="size-10" />
         <p class="mt-1 text-xl md:text-2xl">Completed Todos</p>
-        <p class="mt-4 text-4xl font-medium md:text-6xl md:font-semibold">3</p>
+        <p class="mt-4 text-4xl font-medium md:text-6xl md:font-semibold">
+          {{ tasksStore.totalCompletedTasks }}
+        </p>
       </div>
     </div>
   </section>
