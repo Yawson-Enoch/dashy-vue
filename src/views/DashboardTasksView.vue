@@ -9,21 +9,24 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useAuthStore } from '@/stores/auth';
 import { useTasksStore } from '@/stores/tasks';
 import { toTypedSchema } from '@vee-validate/zod';
-import { PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
 import { useForm } from 'vee-validate';
-import { useId } from 'vue';
+import { computed, ref, useId } from 'vue';
 import * as z from 'zod';
 
 const authStore = useAuthStore();
 const tasksStore = useTasksStore();
 
 const id = useId();
+
+const open = ref(false);
+
+const isEditing = computed(() => !!tasksStore.editDetails);
 
 const { defineField, handleSubmit, isSubmitting, errors, resetForm } = useForm({
   validationSchema: toTypedSchema(
@@ -44,13 +47,39 @@ const { defineField, handleSubmit, isSubmitting, errors, resetForm } = useForm({
     }),
   ),
 });
-
 const [title, titleAttrs] = defineField('title');
 const [description, descriptionAttrs] = defineField('description');
 
+function handleEdit(id: string) {
+  tasksStore.resetEditState();
+  tasksStore.editTask(id);
+  open.value = true;
+  resetForm({
+    values: {
+      title: tasksStore.editDetails?.title,
+      description: tasksStore.editDetails?.description,
+    },
+  });
+}
+
+function handleAdd() {
+  tasksStore.resetEditState();
+  open.value = true;
+  resetForm({
+    values: {
+      title: tasksStore.editDetails?.title,
+      description: tasksStore.editDetails?.description,
+    },
+  });
+}
+
 const onSubmit = handleSubmit((values) => {
-  tasksStore.addTask(values.title, values.description);
-  resetForm();
+  if (isEditing.value && tasksStore.editDetails) {
+    tasksStore.updateTask(tasksStore.editDetails.id, values.title, values.description);
+  } else {
+    tasksStore.addTask(values.title, values.description);
+    resetForm();
+  }
 });
 </script>
 
@@ -73,21 +102,32 @@ const onSubmit = handleSubmit((values) => {
           <button class="flex items-center justify-center" @click="tasksStore.deleteTask(id)">
             <TrashIcon />
           </button>
+
+          <button
+            :class="['flex items-center justify-center', isCompleted ? 'hidden' : '']"
+            @click="handleEdit(id)"
+          >
+            <PencilIcon />
+          </button>
         </div>
       </li>
     </ul>
 
     <!-- add todo button -->
-    <Dialog>
-      <DialogTrigger as-child>
-        <Button size="icon" class="fixed bottom-[20vh] right-4 size-10 lg:right-[17vw]">
-          <PlusIcon />
-        </Button>
-      </DialogTrigger>
-      <DialogContent class="sm:max-w-[425px]">
+    <Dialog v-model:open="open">
+      <Button
+        size="icon"
+        class="fixed bottom-[20vh] right-4 size-10 lg:right-[17vw]"
+        @click="handleAdd()"
+      >
+        <PlusIcon />
+      </Button>
+      <DialogContent class="sm:max-w-[425px]" :key="tasksStore.editDetails?.id">
         <DialogHeader>
-          <DialogTitle>Add new task</DialogTitle>
-          <DialogDescription>Add a task and optionally, a description.</DialogDescription>
+          <DialogTitle>{{ isEditing ? 'Edit task' : 'Add new task' }}</DialogTitle>
+          <DialogDescription>{{
+            isEditing ? 'Edit your task' : 'Add a task and optionally, a description.'
+          }}</DialogDescription>
         </DialogHeader>
         <form class="grid gap-2 py-4" novalidate @submit.prevent="onSubmit">
           <div class="grid grid-rows-2 space-y-2">
@@ -112,7 +152,9 @@ const onSubmit = handleSubmit((values) => {
           </div>
           <DialogFooter>
             <DialogClose as-child>
-              <Button type="submit" :disabled="isSubmitting"> Add Task </Button>
+              <Button type="submit" :disabled="isSubmitting">{{
+                isEditing ? 'Edit Task' : 'Add Task'
+              }}</Button>
             </DialogClose>
           </DialogFooter>
         </form>
