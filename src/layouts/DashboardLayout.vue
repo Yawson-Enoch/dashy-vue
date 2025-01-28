@@ -184,10 +184,7 @@ const router = useRouter();
         <!-- logo -->
         <RouterLink
           to="/dashboard"
-          :class="[
-            'grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start',
-            isSidebarCollapsed && 'inline-grid aspect-square',
-          ]"
+          :class="['flex h-10 min-w-full items-center', isSidebarCollapsed && 'aspect-square']"
         >
           <img
             alt="DashyVue Logo"
