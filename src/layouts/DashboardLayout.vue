@@ -69,11 +69,15 @@ const router = useRouter();
       <div
         class="flex h-16 items-center justify-between rounded-xl bg-zinc-900/5 px-4 backdrop-blur-md dark:bg-zinc-900/60"
       >
-        <div>
+        <div class="flex h-full items-center">
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger as-child>
-                <button @click="toggleSidebar" class="max-lg:hidden">
+              <TooltipTrigger
+                as-child
+                class="flex items-center justify-center max-lg:hidden"
+                @click="toggleSidebar"
+              >
+                <button>
                   <PanelRightCloseIcon v-if="isSidebarCollapsed" />
                   <PanelLeftCloseIcon v-else />
                 </button>
@@ -105,10 +109,10 @@ const router = useRouter();
                       <img
                         alt="DashyVue Logo"
                         src="/logo.png"
-                        class="aspect-square h-full rounded-full bg-muted object-cover object-center italic text-muted-foreground"
+                        class="bg-muted text-muted-foreground aspect-square h-full rounded-full object-cover object-center italic"
                       />
                       <p
-                        class="ml-2 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-lg font-semibold text-transparent md:text-xl"
+                        class="from-foreground to-muted-foreground ml-2 bg-linear-to-r bg-clip-text text-lg font-semibold text-transparent md:text-xl"
                       >
                         DashyVue
                       </p>
@@ -126,8 +130,8 @@ const router = useRouter();
                       <DialogClose class="w-full">
                         <RouterLink
                           :to="path"
-                          class="grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 text-muted-foreground hover:bg-zinc-900/10 hover:text-foreground dark:hover:bg-accent"
-                          exact-active-class="bg-primary text-primary-foreground hover:!bg-primary hover:!text-primary-foreground"
+                          class="text-muted-foreground hover:text-foreground dark:hover:bg-accent grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 hover:bg-zinc-900/10"
+                          exact-active-class="bg-primary text-primary-foreground hover:bg-primary! hover:text-primary-foreground!"
                         >
                           <component :is="icon" />
                           <p class="ml-4">{{ title }}</p>
@@ -139,7 +143,7 @@ const router = useRouter();
 
                 <!-- logout -->
                 <button
-                  class="mt-auto grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 text-muted-foreground hover:bg-zinc-900/10 hover:text-foreground dark:hover:bg-accent"
+                  class="text-muted-foreground hover:text-foreground dark:hover:bg-accent mt-auto grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 hover:bg-zinc-900/10"
                   @click="
                     () => {
                       authStore.logout();
@@ -158,9 +162,9 @@ const router = useRouter();
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
             <Button variant="ghost" class="size-fit p-0 hover:bg-transparent [&_svg]:size-auto">
-              <MoonIcon class="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <MoonIcon class="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
               <SunIcon
-                class="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+                class="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
               />
               <span class="sr-only">Toggle theme</span>
             </Button>
@@ -189,11 +193,11 @@ const router = useRouter();
           <img
             alt="DashyVue Logo"
             src="/logo.png"
-            class="aspect-square h-full truncate rounded-full bg-muted object-cover object-center italic text-muted-foreground"
+            class="bg-muted text-muted-foreground aspect-square h-full truncate rounded-full object-cover object-center italic"
           />
           <p
             :class="[
-              'ml-4 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-xl font-semibold text-transparent',
+              'from-foreground to-muted-foreground ml-4 bg-linear-to-r bg-clip-text text-xl font-semibold text-transparent',
               isSidebarCollapsed && 'hidden',
             ]"
           >
@@ -205,14 +209,16 @@ const router = useRouter();
           <li v-for="{ icon, path, title } of links" :key="title" class="w-full">
             <TooltipProvider :disabled="!isSidebarCollapsed" :delay-duration="0">
               <Tooltip>
-                <TooltipTrigger class="w-full">
+                <TooltipTrigger
+                  as-child
+                  :class="[
+                    'text-muted-foreground hover:text-foreground dark:hover:bg-accent grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 hover:bg-zinc-900/10',
+                    isSidebarCollapsed && 'inline-grid aspect-square',
+                  ]"
+                >
                   <RouterLink
                     :to="path"
-                    :class="[
-                      'grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 text-muted-foreground hover:bg-zinc-900/10 hover:text-foreground dark:hover:bg-accent',
-                      isSidebarCollapsed && 'inline-grid aspect-square',
-                    ]"
-                    exact-active-class="bg-primary text-primary-foreground hover:!bg-primary hover:!text-primary-foreground"
+                    exact-active-class="bg-primary text-primary-foreground hover:bg-primary! hover:text-primary-foreground!"
                   >
                     <component :is="icon" />
                     <p :class="['ml-4', isSidebarCollapsed && 'hidden']">{{ title }}</p>
@@ -229,7 +235,7 @@ const router = useRouter();
         <DropdownMenu>
           <DropdownMenuTrigger
             :class="[
-              'mt-auto grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 text-muted-foreground hover:bg-zinc-900/10 hover:text-foreground dark:hover:bg-accent',
+              'text-muted-foreground hover:text-foreground dark:hover:bg-accent mt-auto grid h-10 min-w-full grid-cols-[auto_1fr] items-center justify-items-start rounded-md p-2 hover:bg-zinc-900/10',
               isSidebarCollapsed && 'inline-grid aspect-square',
             ]"
           >
@@ -240,7 +246,7 @@ const router = useRouter();
             <div class="grid grid-cols-3 rounded-md bg-zinc-900/5 p-2 dark:bg-zinc-900/60">
               <DropdownMenuItem
                 :class="[
-                  'grid place-items-center gap-y-0.5 text-muted-foreground',
+                  'text-muted-foreground grid place-items-center gap-y-0.5',
                   mode === 'light' && 'text-foreground',
                 ]"
                 @select="mode = 'light'"
@@ -250,7 +256,7 @@ const router = useRouter();
               </DropdownMenuItem>
               <DropdownMenuItem
                 :class="[
-                  'grid place-items-center gap-y-0.5 text-muted-foreground',
+                  'text-muted-foreground grid place-items-center gap-y-0.5',
                   mode === 'dark' && 'text-foreground',
                 ]"
                 @select="mode = 'dark'"
@@ -260,7 +266,7 @@ const router = useRouter();
               </DropdownMenuItem>
               <DropdownMenuItem
                 :class="[
-                  'grid place-items-center gap-y-0.5 text-muted-foreground',
+                  'text-muted-foreground grid place-items-center gap-y-0.5',
                   mode === 'auto' && 'text-foreground',
                 ]"
                 @select="mode = 'auto'"

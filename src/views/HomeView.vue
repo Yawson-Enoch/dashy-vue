@@ -43,16 +43,16 @@ const onSubmit = handleSubmit((values) => {
 <template>
   <section class="grid min-h-dvh md:grid-cols-2">
     <div
-      class="relative before:absolute before:left-[-400px] before:top-[-300px] before:z-10 before:h-[800px] before:w-[800px] before:rounded-full before:bg-primary/5 before:blur-[80px] before:content-[''] max-md:hidden"
+      class="before:bg-primary/5 relative before:absolute before:top-[-300px] before:left-[-400px] before:z-10 before:h-[800px] before:w-[800px] before:rounded-full before:blur-[80px] before:content-[''] max-md:hidden"
     >
       <div class="container flex size-full flex-col items-center justify-center text-center">
         <img src="/logo.png" alt="DashyVue Logo" class="size-44 lg:size-64" />
         <h1
-          class="mt-8 w-fit bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-4xl font-extrabold tracking-tight text-transparent lg:text-5xl"
+          class="from-foreground to-muted-foreground mt-8 w-fit bg-linear-to-r bg-clip-text text-4xl font-extrabold tracking-tight text-transparent lg:text-5xl"
         >
           DashyVue
         </h1>
-        <p class="mt-2 text-muted-foreground">A simple tool to keep tasks organized.</p>
+        <p class="text-muted-foreground mt-2">A simple tool to keep tasks organized.</p>
       </div>
     </div>
     <div
@@ -61,8 +61,8 @@ const onSubmit = handleSubmit((values) => {
       <h2 class="text-3xl font-semibold tracking-tight">Welcome to DashyVue</h2>
 
       <div v-if="authStore.isLoggedIn" class="mt-12 space-y-4">
-        <p class="text-center text-muted-foreground">
-          Logged in as <span class="font-semibold text-foreground">{{ authStore.username }}</span>
+        <p class="text-muted-foreground text-center">
+          Logged in as <span class="text-foreground font-semibold">{{ authStore.username }}</span>
         </p>
 
         <div class="mx-auto grid w-full grid-cols-2 gap-x-4">
@@ -77,9 +77,9 @@ const onSubmit = handleSubmit((values) => {
         v-else
         novalidate
         @submit.prevent="onSubmit"
-        class="mx-auto mt-12 w-full max-w-72 space-y-2"
+        class="mx-auto mt-12 w-full max-w-72 space-y-8"
       >
-        <div class="grid grid-rows-2 space-y-2">
+        <div class="space-y-2">
           <Input
             placeholder="Enter your name"
             class="mx-auto"

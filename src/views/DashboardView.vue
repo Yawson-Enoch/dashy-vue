@@ -6,7 +6,7 @@ const tasksStore = useTasksStore();
 </script>
 
 <template>
-  <section class="grid grid-cols-[repeat(auto-fill,_minmax(min(20rem,_100%),_1fr))] gap-4">
+  <section class="grid grid-cols-[repeat(auto-fill,minmax(min(20rem,100%),1fr))] gap-4">
     <div
       class="relative aspect-video w-full overflow-hidden rounded-md border bg-background before:absolute before:-left-1/2 before:-top-1/2 before:z-10 before:size-full before:rounded-full before:bg-primary/10 before:blur-[80px] before:content-['']"
     >
