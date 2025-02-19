@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import Button from '@/components/ui/button/Button.vue';
-import Input from '@/components/ui/input/Input.vue';
+import { useId } from 'vue';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
-import * as z from 'zod';
+import { useRoute, useRouter } from 'vue-router';
+import { z } from 'zod';
 
-import { useAuthStore } from '@/stores/auth';
-import { useId } from 'vue';
-import { useRouter } from 'vue-router';
-import { useRoute } from 'vue-router';
+import Button from '@/components/ui/button/Button.vue';
+import Input from '@/components/ui/input/Input.vue';
+import { useAuthStore } from '@/stores/auth-store';
 
 const id = useId();
 
@@ -45,14 +44,20 @@ const onSubmit = handleSubmit((values) => {
     <div
       class="before:bg-primary/5 relative before:absolute before:top-[-300px] before:left-[-400px] before:z-10 before:h-[800px] before:w-[800px] before:rounded-full before:blur-[80px] before:content-[''] max-md:hidden"
     >
-      <div class="container flex size-full flex-col items-center justify-center text-center">
-        <img src="/logo.png" alt="DashyVue Logo" class="size-44 lg:size-64" />
+      <div
+        class="container flex size-full flex-col items-center justify-center text-center"
+      >
+        <RouterLink to="/">
+          <img src="/logo.png" alt="DashyVue Logo" class="size-44 lg:size-64" />
+        </RouterLink>
         <h1
           class="from-foreground to-muted-foreground mt-8 w-fit bg-linear-to-r bg-clip-text text-4xl font-extrabold tracking-tight text-transparent lg:text-5xl"
         >
           DashyVue
         </h1>
-        <p class="text-muted-foreground mt-2">A simple tool to keep tasks organized.</p>
+        <p class="text-muted-foreground mt-2">
+          A simple tool to keep tasks organized.
+        </p>
       </div>
     </div>
     <div
@@ -62,7 +67,10 @@ const onSubmit = handleSubmit((values) => {
 
       <div v-if="authStore.isLoggedIn" class="mt-12 space-y-4">
         <p class="text-muted-foreground text-center">
-          Logged in as <span class="text-foreground font-semibold">{{ authStore.username }}</span>
+          Logged in as
+          <span class="text-foreground font-semibold">{{
+            authStore.username
+          }}</span>
         </p>
 
         <div class="mx-auto grid w-full grid-cols-2 gap-x-4">
@@ -88,9 +96,13 @@ const onSubmit = handleSubmit((values) => {
             v-model="username"
             v-bind="usernameAttrs"
           />
-          <p class="text-sm text-red-600 dark:text-red-400">{{ errors.username }}</p>
+          <p class="text-sm text-red-600 dark:text-red-400">
+            {{ errors.username }}
+          </p>
         </div>
-        <Button type="submit" class="w-full" :disabled="isSubmitting">Login</Button>
+        <Button type="submit" class="w-full" :disabled="isSubmitting"
+          >Login</Button
+        >
       </form>
     </div>
   </section>

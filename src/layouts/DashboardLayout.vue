@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import {
   HomeIcon,
   LaptopIcon,
@@ -11,10 +12,10 @@ import {
   UserIcon,
   XIcon,
 } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { DialogClose } from 'radix-vue';
 import { RouterLink, RouterView, useRouter } from 'vue-router';
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import Button from '@/components/ui/button/Button.vue';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,11 +31,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import Button from '@/components/ui/button/Button.vue';
-
-import { useAuthStore } from '@/stores/auth';
-import { useColorMode } from '@vueuse/core';
-import { DialogClose } from 'radix-vue';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { useTheme } from '@/composables/theme';
+import { useAuthStore } from '@/stores/auth-store';
 
 const links = [
   {
@@ -57,7 +61,7 @@ function toggleSidebar() {
 
 const authStore = useAuthStore();
 
-const { store: mode } = useColorMode();
+const { theme } = useTheme();
 
 const router = useRouter();
 </script>
@@ -83,7 +87,11 @@ const router = useRouter();
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{{ isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar' }}</p>
+                <p>
+                  {{
+                    isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+                  }}
+                </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -101,7 +109,9 @@ const router = useRouter();
                 <SheetDescription> Toggle mobile nav </SheetDescription>
               </SheetHeader>
 
-              <div class="container flex h-full flex-col overscroll-y-contain pb-4">
+              <div
+                class="container flex h-full flex-col overscroll-y-contain pb-4"
+              >
                 <!-- logo and close button -->
                 <div class="flex h-16 items-center justify-between">
                   <DialogClose>
@@ -161,8 +171,13 @@ const router = useRouter();
 
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
-            <Button variant="ghost" class="size-fit p-0 hover:bg-transparent [&_svg]:size-auto">
-              <MoonIcon class="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+            <Button
+              variant="ghost"
+              class="size-fit p-0 hover:bg-transparent [&_svg]:size-auto"
+            >
+              <MoonIcon
+                class="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+              />
               <SunIcon
                 class="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
               />
@@ -170,15 +185,21 @@ const router = useRouter();
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem @click="mode = 'light'"> Light </DropdownMenuItem>
-            <DropdownMenuItem @click="mode = 'dark'"> Dark </DropdownMenuItem>
-            <DropdownMenuItem @click="mode = 'auto'"> System </DropdownMenuItem>
+            <DropdownMenuItem @click="theme = 'light'">
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem @click="theme = 'dark'"> Dark </DropdownMenuItem>
+            <DropdownMenuItem @click="theme = 'auto'">
+              System
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
     </header>
     <!-- sidebar -->
-    <aside class="dashboard-aside sticky top-0 max-h-dvh overflow-hidden p-4 pr-8 max-lg:hidden">
+    <aside
+      class="dashboard-aside sticky top-0 max-h-dvh overflow-hidden p-4 pr-8 max-lg:hidden"
+    >
       <div
         :class="[
           'flex h-full flex-col items-center rounded-xl bg-zinc-900/5 p-4 text-sm transition-[width] duration-300 ease-in-out dark:bg-zinc-900/60',
@@ -188,7 +209,10 @@ const router = useRouter();
         <!-- logo -->
         <RouterLink
           to="/dashboard"
-          :class="['flex h-10 min-w-full items-center', isSidebarCollapsed && 'aspect-square']"
+          :class="[
+            'flex h-10 min-w-full items-center',
+            isSidebarCollapsed && 'aspect-square',
+          ]"
         >
           <img
             alt="DashyVue Logo"
@@ -206,8 +230,15 @@ const router = useRouter();
         </RouterLink>
         <!-- links -->
         <ul class="mt-16 flex min-w-full flex-col gap-y-4">
-          <li v-for="{ icon, path, title } of links" :key="title" class="w-full">
-            <TooltipProvider :disabled="!isSidebarCollapsed" :delay-duration="0">
+          <li
+            v-for="{ icon, path, title } of links"
+            :key="title"
+            class="w-full"
+          >
+            <TooltipProvider
+              :disabled="!isSidebarCollapsed"
+              :delay-duration="0"
+            >
               <Tooltip>
                 <TooltipTrigger
                   as-child
@@ -221,7 +252,9 @@ const router = useRouter();
                     exact-active-class="bg-primary text-primary-foreground hover:bg-primary! hover:text-primary-foreground!"
                   >
                     <component :is="icon" />
-                    <p :class="['ml-4', isSidebarCollapsed && 'hidden']">{{ title }}</p>
+                    <p :class="['ml-4', isSidebarCollapsed && 'hidden']">
+                      {{ title }}
+                    </p>
                   </RouterLink>
                 </TooltipTrigger>
                 <TooltipContent side="right" :side-offset="10">
@@ -240,16 +273,20 @@ const router = useRouter();
             ]"
           >
             <UserIcon />
-            <p :class="['ml-4', isSidebarCollapsed && 'hidden']">{{ authStore.username }}</p>
+            <p :class="['ml-4', isSidebarCollapsed && 'hidden']">
+              {{ authStore.username }}
+            </p>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="right" :side-offset="10">
-            <div class="grid grid-cols-3 rounded-md bg-zinc-900/5 p-2 dark:bg-zinc-900/60">
+            <div
+              class="grid grid-cols-3 rounded-md bg-zinc-900/5 p-2 dark:bg-zinc-900/60"
+            >
               <DropdownMenuItem
                 :class="[
                   'text-muted-foreground grid place-items-center gap-y-0.5',
-                  mode === 'light' && 'text-foreground',
+                  theme === 'light' && 'text-foreground',
                 ]"
-                @select="mode = 'light'"
+                @select="theme = 'light'"
               >
                 <SunIcon />
                 <p>Light</p>
@@ -257,9 +294,9 @@ const router = useRouter();
               <DropdownMenuItem
                 :class="[
                   'text-muted-foreground grid place-items-center gap-y-0.5',
-                  mode === 'dark' && 'text-foreground',
+                  theme === 'dark' && 'text-foreground',
                 ]"
-                @select="mode = 'dark'"
+                @select="theme = 'dark'"
               >
                 <MoonIcon />
                 <p>Dark</p>
@@ -267,9 +304,9 @@ const router = useRouter();
               <DropdownMenuItem
                 :class="[
                   'text-muted-foreground grid place-items-center gap-y-0.5',
-                  mode === 'auto' && 'text-foreground',
+                  theme === 'auto' && 'text-foreground',
                 ]"
-                @select="mode = 'auto'"
+                @select="theme = 'auto'"
               >
                 <LaptopIcon />
                 <p>System</p>

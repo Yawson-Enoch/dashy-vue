@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
+import { computed, type HTMLAttributes } from 'vue';
 import { ChevronRight } from 'lucide-vue-next';
 import {
   DropdownMenuSubTrigger,
-  type DropdownMenuSubTriggerProps,
   useForwardProps,
+  type DropdownMenuSubTriggerProps,
 } from 'radix-vue';
-import { computed, type HTMLAttributes } from 'vue';
 
-const props = defineProps<DropdownMenuSubTriggerProps & { class?: HTMLAttributes['class'] }>();
+import { cn } from '@/lib/utils';
+
+const props = defineProps<
+  DropdownMenuSubTriggerProps & { class?: HTMLAttributes['class'] }
+>();
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;
@@ -24,7 +27,7 @@ const forwardedProps = useForwardProps(delegatedProps);
     v-bind="forwardedProps"
     :class="
       cn(
-        'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden focus:bg-accent data-[state=open]:bg-accent',
+        'focus:bg-accent data-[state=open]:bg-accent flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none',
         props.class,
       )
     "

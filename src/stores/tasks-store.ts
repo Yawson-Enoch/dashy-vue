@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia';
 import { computed, ref, type Ref } from 'vue';
+import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Task {
@@ -15,7 +15,9 @@ export const useTasksStore = defineStore(
   () => {
     const tasks: Ref<Task[]> = ref([]);
 
-    const editDetails = computed(() => tasks.value.find((task) => task.isEditing));
+    const editDetails = computed(() =>
+      tasks.value.find((task) => task.isEditing),
+    );
 
     const totalTasks = computed(() => tasks.value.length);
     const totalCompletedTasks = computed(() => {

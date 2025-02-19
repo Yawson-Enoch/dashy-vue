@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { computed, ref, useId } from 'vue';
+import { toTypedSchema } from '@vee-validate/zod';
+import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { useForm } from 'vee-validate';
+import { z } from 'zod';
+
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -10,13 +16,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useAuthStore } from '@/stores/auth';
-import { useTasksStore } from '@/stores/tasks';
-import { toTypedSchema } from '@vee-validate/zod';
-import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
-import { useForm } from 'vee-validate';
-import { computed, ref, useId } from 'vue';
-import * as z from 'zod';
+import { useAuthStore } from '@/stores/auth-store';
+import { useTasksStore } from '@/stores/tasks-store';
 
 const authStore = useAuthStore();
 const tasksStore = useTasksStore();
@@ -74,7 +75,11 @@ function handleAdd() {
 
 const onSubmit = handleSubmit((values) => {
   if (isEditing.value && tasksStore.editDetails) {
-    tasksStore.updateTask(tasksStore.editDetails.id, values.title, values.description);
+    tasksStore.updateTask(
+      tasksStore.editDetails.id,
+      values.title,
+      values.description,
+    );
   } else {
     tasksStore.addTask(values.title, values.description);
     resetForm();
@@ -87,7 +92,10 @@ const onSubmit = handleSubmit((values) => {
   <section class="relative container">
     <p class="text-xl capitalize md:text-2xl">Hey, {{ authStore.username }}</p>
 
-    <p v-if="tasksStore.totalTasks === 0" class="mt-4 max-w-(--breakpoint-md) md:mt-8">
+    <p
+      v-if="tasksStore.totalTasks === 0"
+      class="mt-4 max-w-(--breakpoint-md) md:mt-8"
+    >
       You are free today!
     </p>
     <ul v-else class="mt-4 max-w-(--breakpoint-md) space-y-4 md:mt-8">
@@ -96,15 +104,26 @@ const onSubmit = handleSubmit((values) => {
         :key="id"
         class="bg-secondary grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-md p-4"
       >
-        <Checkbox :checked="isCompleted" @update:checked="tasksStore.toggleCompleted(id)" />
-        <p :class="['truncate', isCompleted ? 'line-through' : '']">{{ title }}</p>
+        <Checkbox
+          :checked="isCompleted"
+          @update:checked="tasksStore.toggleCompleted(id)"
+        />
+        <p :class="['truncate', isCompleted ? 'line-through' : '']">
+          {{ title }}
+        </p>
         <div class="group flex items-center gap-x-4 [&_svg]:size-4">
-          <button class="flex items-center justify-center" @click="tasksStore.deleteTask(id)">
+          <button
+            class="flex items-center justify-center"
+            @click="tasksStore.deleteTask(id)"
+          >
             <TrashIcon />
           </button>
 
           <button
-            :class="['flex items-center justify-center', isCompleted ? 'hidden' : '']"
+            :class="[
+              'flex items-center justify-center',
+              isCompleted ? 'hidden' : '',
+            ]"
             @click="handleEdit(id)"
           >
             <PencilIcon />
@@ -128,9 +147,13 @@ const onSubmit = handleSubmit((values) => {
         @pointer-down-outside.prevent
       >
         <DialogHeader>
-          <DialogTitle>{{ isEditing ? 'Edit task' : 'Add new task' }}</DialogTitle>
+          <DialogTitle>{{
+            isEditing ? 'Edit task' : 'Add new task'
+          }}</DialogTitle>
           <DialogDescription>{{
-            isEditing ? 'Edit your task' : 'Add a task and optionally, a description.'
+            isEditing
+              ? 'Edit your task'
+              : 'Add a task and optionally, a description.'
           }}</DialogDescription>
         </DialogHeader>
         <form class="grid gap-6 py-4" novalidate @submit.prevent="onSubmit">
@@ -142,7 +165,9 @@ const onSubmit = handleSubmit((values) => {
               v-model="title"
               v-bind="titleAttrs"
             />
-            <p class="text-sm text-red-600 dark:text-red-400">{{ errors.title }}</p>
+            <p class="text-sm text-red-600 dark:text-red-400">
+              {{ errors.title }}
+            </p>
           </div>
           <div class="space-y-2">
             <Input
@@ -152,7 +177,9 @@ const onSubmit = handleSubmit((values) => {
               v-model="description"
               v-bind="descriptionAttrs"
             />
-            <p class="text-sm text-red-600 dark:text-red-400">{{ errors.description }}</p>
+            <p class="text-sm text-red-600 dark:text-red-400">
+              {{ errors.description }}
+            </p>
           </div>
           <DialogFooter>
             <Button type="submit" :disabled="isSubmitting">{{
